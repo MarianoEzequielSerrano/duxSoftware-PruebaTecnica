@@ -1,12 +1,17 @@
 package com.software.dux.challenge.controller;
 
 import com.software.dux.challenge.model.Equipo;
+import com.software.dux.challenge.model.ErrorMensaje;
 import com.software.dux.challenge.service.iEquipoService;
+import jakarta.validation.Valid;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -23,11 +28,28 @@ public class EquipoController {
     
     @GetMapping("/equipos/{id}")
     public ResponseEntity<?> getEquipoById(@PathVariable Long id){
-        return equipoServ.getEquipoById(id);
+        Equipo e = equipoServ.getEquipoById(id);
+        if(e == null){
+            ErrorMensaje error = new ErrorMensaje("Equipo no encontrado", 404);
+            return new ResponseEntity(error, HttpStatus.NOT_FOUND);
+        }else{
+            return new ResponseEntity(e, HttpStatus.ACCEPTED);
+        }
     }
     
     @GetMapping("/equipos/buscar")
     public List<Equipo> getEquiposByName(@RequestParam String nombre){
         return equipoServ.getEquiposByName(nombre);
     }
+    
+    @PostMapping("/equipos")
+    public ResponseEntity<?> createEquipo(@Valid @RequestBody Equipo nuevoEquipo){
+        try{
+            Equipo equipoGuardado = equipoServ.saveEquipo(nuevoEquipo);
+            return new ResponseEntity(equipoGuardado, HttpStatus.CREATED);
+        }catch(RuntimeException e){
+            throw e;
+        }
+    }
+       
 }
