@@ -9,5 +9,5 @@ public interface iEquipoService {
     public List<Equipo> getEquiposByName(String nombre);
     public Equipo saveEquipo(Equipo nuevoEquipo);
     public Equipo editEquipo(Long id, Equipo equipoEditado);
-    public void deleteEquipo(Long id);
+    public Equipo deleteEquipo(Long id);
 }

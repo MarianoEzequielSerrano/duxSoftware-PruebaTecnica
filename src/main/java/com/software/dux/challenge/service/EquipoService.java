@@ -46,8 +46,13 @@ public class EquipoService implements iEquipoService{
     }
 
     @Override
-    public void deleteEquipo(Long id) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public Equipo deleteEquipo(Long id) {
+        Equipo equipoDelete = this.getEquipoById(id);
+        if(equipoDelete != null){
+            equipoRepo.deleteById(id);
+        }
+
+        return equipoDelete;
     }
 
 }
