@@ -33,8 +33,16 @@ public class EquipoService implements iEquipoService{
     }
 
     @Override
-    public Equipo editEquipo(Long id, String nuevoNombre, String nuevaLiga, String nuevoPais) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public Equipo editEquipo(Long id, Equipo equipoEditado) {
+        Equipo equipoUpdate = this.getEquipoById(id);
+        if(equipoUpdate != null){
+            equipoUpdate.setNombre(equipoEditado.getNombre());
+            equipoUpdate.setLiga(equipoEditado.getLiga());
+            equipoUpdate.setPais(equipoEditado.getPais());
+            return this.saveEquipo(equipoUpdate);
+        }else{
+            return equipoUpdate;
+        }
     }
 
     @Override

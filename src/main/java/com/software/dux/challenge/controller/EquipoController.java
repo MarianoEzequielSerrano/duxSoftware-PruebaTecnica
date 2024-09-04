@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -47,6 +48,21 @@ public class EquipoController {
         try{
             Equipo equipoGuardado = equipoServ.saveEquipo(nuevoEquipo);
             return new ResponseEntity(equipoGuardado, HttpStatus.CREATED);
+        }catch(RuntimeException e){
+            throw e;
+        }
+    }
+    
+    @PutMapping("/equipos/{id}")
+    public ResponseEntity<?> editEquipo(@PathVariable Long id, @Valid @RequestBody Equipo equipoModificado){
+        try{
+            Equipo equipoUpdate = equipoServ.editEquipo(id, equipoModificado);
+            if(equipoUpdate == null){
+                ErrorMensaje error = new ErrorMensaje("Equipo no encontrado", 404);
+                return new ResponseEntity(error, HttpStatus.NOT_FOUND);
+            }else{
+                return new ResponseEntity(equipoUpdate, HttpStatus.OK);
+            }
         }catch(RuntimeException e){
             throw e;
         }
