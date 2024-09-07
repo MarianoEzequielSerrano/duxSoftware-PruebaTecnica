@@ -66,6 +66,26 @@ public class EquipoServiceTest {
     }
     
     @Test
+    public void getEquiposByNameShouldFoundNotEmptyList(){
+        String filtro = "madrid";
+        Equipo equipo1 = new Equipo (1L, "Real Madrid", "La Liga", "España");
+        Equipo equipo3 = new Equipo (3L, "Atletico Madrid", "La Liga", "España");
+        List<Equipo> equiposMadrid = new ArrayList<>();
+        equiposMadrid.add(equipo1);
+        equiposMadrid.add(equipo3);
+        
+        
+        when(equipoRepo.findByNombreContainingIgnoreCase(filtro)).thenReturn(equiposMadrid);
+        List<Equipo> result = equipoServ.getEquiposByName(filtro);
+        
+        assertNotNull(result);
+        assertFalse(result.isEmpty());
+        assertEquals(2, result.size());
+        assertTrue(result.get(0).getNombre().toUpperCase().contains(filtro.toUpperCase()));
+        assertTrue(result.get(1).getNombre().toUpperCase().contains(filtro.toUpperCase()));
+    }
+    
+    @Test
     public void getEquiposByNameShouldFoundEmptyList(){
         String filtro = "manchester";
         List<Equipo> equiposManchester = new ArrayList<>();
