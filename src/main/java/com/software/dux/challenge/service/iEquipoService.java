@@ -8,6 +8,6 @@ public interface iEquipoService {
     public Equipo getEquipoById(Long id);
     public List<Equipo> getEquiposByName(String nombre);
     public Equipo saveEquipo(Equipo nuevoEquipo);
-    public Equipo editEquipo(Long id, Equipo equipoEditado);
-    public Equipo deleteEquipo(Long id);
+    public Equipo editEquipo(Equipo equipoEditado);
+    public void deleteEquipo(Long id);
 }

@@ -57,12 +57,17 @@ public class EquipoController {
     @PutMapping("/equipos/{id}")
     public ResponseEntity<?> editEquipo(@PathVariable Long id, @Valid @RequestBody Equipo equipoModificado){
         try{
-            Equipo equipoUpdate = equipoServ.editEquipo(id, equipoModificado);
-            if(equipoUpdate == null){
+            Equipo equipo = equipoServ.getEquipoById(id);
+            if(equipo == null){
                 ErrorMensaje error = new ErrorMensaje("Equipo no encontrado", 404);
                 return new ResponseEntity(error, HttpStatus.NOT_FOUND);
             }else{
-                return new ResponseEntity(equipoUpdate, HttpStatus.OK);
+                equipo.setNombre(equipoModificado.getNombre());
+                equipo.setLiga(equipoModificado.getLiga());
+                equipo.setPais(equipoModificado.getPais());
+                Equipo equipoActualizado = equipoServ.editEquipo(equipo);
+   
+                return new ResponseEntity(equipoActualizado, HttpStatus.OK);
             }
         }catch(RuntimeException e){
             throw e;
@@ -71,11 +76,12 @@ public class EquipoController {
     
     @DeleteMapping("/equipos/{id}")
     public ResponseEntity<?> deleteEquipo(@PathVariable Long id){
-        Equipo equipoDelete = equipoServ.deleteEquipo(id);
+        Equipo equipoDelete = equipoServ.getEquipoById(id);
         if(equipoDelete == null){
             ErrorMensaje error = new ErrorMensaje("Equipo no encontrado", 404);
             return new ResponseEntity(error, HttpStatus.NOT_FOUND);
         }else{
+            equipoServ.deleteEquipo(id);
             return new ResponseEntity(HttpStatus.NO_CONTENT);
         }
     }

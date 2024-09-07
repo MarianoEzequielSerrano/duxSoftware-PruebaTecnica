@@ -33,26 +33,12 @@ public class EquipoService implements iEquipoService{
     }
 
     @Override
-    public Equipo editEquipo(Long id, Equipo equipoEditado) {
-        Equipo equipoUpdate = this.getEquipoById(id);
-        if(equipoUpdate != null){
-            equipoUpdate.setNombre(equipoEditado.getNombre());
-            equipoUpdate.setLiga(equipoEditado.getLiga());
-            equipoUpdate.setPais(equipoEditado.getPais());
-            return this.saveEquipo(equipoUpdate);
-        }else{
-            return equipoUpdate;
-        }
+    public Equipo editEquipo(Equipo equipoEditado) {
+        return this.saveEquipo(equipoEditado);
     }
 
     @Override
-    public Equipo deleteEquipo(Long id) {
-        Equipo equipoDelete = this.getEquipoById(id);
-        if(equipoDelete != null){
-            equipoRepo.deleteById(id);
-        }
-
-        return equipoDelete;
+    public void deleteEquipo(Long id) {
+        equipoRepo.deleteById(id);
     }
-
 }
