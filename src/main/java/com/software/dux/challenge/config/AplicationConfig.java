@@ -1,8 +1,9 @@
 package com.software.dux.challenge.config;
 
-import com.software.dux.challenge.jwt.JwtService;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.info.Info;
+import io.swagger.v3.oas.models.info.License;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -53,6 +54,15 @@ public class AplicationConfig {
     @Bean
     public PasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
+    }
+    
+    @Bean
+    public OpenAPI customOpenAPI(){
+        return new OpenAPI()
+                .info(new Info()
+                .title("Prueba técnica | Dux Software")
+                .version("1.0")
+                .description("Desarrollado por: Mariano Ezequiel Serrano."));
     }
     
 }
